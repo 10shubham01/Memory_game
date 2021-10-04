@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+<body>
+    <div id="fWindow" class="onload">
+        <h1>Memory Game</h1>
+        <input id="nameInput" class="Input" type="text" name="Name" placeholder="Your Name..." />
+    </div>
+    <div id="game-window">
+        <div class="text-container">
+            <h1>Flip: <span id="click">0</span></h1>
+            <h1>Score: <span id="score">0</span></h1>
+            <h1>Time: <span id="time">90</span></h1>
+        </div>
+        <div class="container" id="c"></div>
+    </div>
+    <div id="winWindow">
+        <div class="win-window">
+            <h1>You Win !</h1>
+            <h1><span id="userName"></span></h1>
+            <span class="win-score">888</span>
+            <div class="icons">
+                <span class="fa fa-star checked" style="font-size: 40px"></span>
+                <span class="fa fa-star checked" style="font-size: 40px"></span>
+                <span class="fa fa-star" style="font-size: 40px"></span>
+            </div>
+            <li class="fa fa-repeat btn" style="font-size: 36px" onclick="fun()"></li>
+        </div>
+    </div>
+    <div id="timeUpwindow">
+        <div class="win-window">
+            <h1>Time Up !</h1>
+            <h1><span id="userName2"></span></h1>
+            <span class="win-score">000</span>
+            <div class="icons">
+                <span class="fa fa-star checked" style="font-size: 40px"></span>
+                <span class="fa fa-star checked" style="font-size: 40px"></span>
+                <span class="fa fa-star" style="font-size: 40px"></span>
+            </div>
+            <li class="fa fa-repeat btn" style="font-size: 36px" onclick="fun()"></li>
+        </div>
+    </div>
+    <script src="./script.js "></script>
+</body>
+
+</html>
