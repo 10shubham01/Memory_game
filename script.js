@@ -1,8 +1,3 @@
-let clickedCard = null;
-let preventClick = false;
-let combosfound = 0;
-let click = 0;
-
 const cards = document.querySelectorAll(".card");
 const count = document.getElementById("click");
 const score = document.getElementById("score");
@@ -16,9 +11,16 @@ const timeUpwindow = document.getElementById("timeUpwindow");
 const userName2 = document.getElementById("userName2");
 const userName = document.getElementById("userName");
 const winScore = document.querySelector(".win-score");
+const timeUpScore = document.querySelector(".timeUp-score");
+
+var starScore = 0;
+let clickedCard = null;
+let dontClick = false;
+let matchFound = 0;
+let click = 0;
 var timeScore = 0;
 var youWin = false;
-
+var timeUp = false;
 const COLORS = [
     "red",
     "blue",
@@ -37,7 +39,7 @@ const COLORS = [
     "pink",
     "pink",
 ];
-
+/*--------------------------------------------------shuffle Function-------------------------------------------------- */
 function shuffle(array) {
     let counter = array.length;
     while (counter > 0) {
@@ -47,18 +49,20 @@ function shuffle(array) {
         array[counter] = array[index];
         array[index] = temp;
     }
-
     return array;
 }
+/* ----------------------------------------------------------------------------------------------------------------------- */
 
+/* ------------------------------------------------------When a user enter his name and press enter------------------------------------------------------------------------- */
 input.addEventListener("keyup", (e) => {
-    if (e.keyCode === 13 && input.value.length > 3) {
+    var inputValue = sanitize(input.value);
+
+    if (e.keyCode === 13 && inputValue.length > 3) {
         firstWindow.style.display = "none";
         gameWindow.style.display = "block";
-        userName.innerText = input.value;
+        userName.innerText = inputValue;
 
-        // __________________________________________________________________________________________________________
-
+        /* -----------------------------------------------Creating elements using suffle function------------------------------------------- */
         shuffle(COLORS).forEach((color, i) => {
             var newDiv = document.createElement("div");
             newDiv.style.backgroundColor = color;
@@ -70,30 +74,39 @@ input.addEventListener("keyup", (e) => {
             c.appendChild(newDiv);
             newDiv.addEventListener("click", ONCLICK);
         });
-
-        var timeleft = 80;
-        var downloadTimer = setInterval(function() {
-            if (timeleft <= 0 || youWin) {
-                clearInterval(downloadTimer);
+        /* -------------------------------------------------------Creating countdown of 90 sec----------------------------------------------------------------- */
+        var timeleft = 90;
+        var Timer = setInterval(function() {
+            /* If time up or user win , Store the time left in time score for total score calcultion */
+            if (timeleft <= 0 || youWin || timeUp) {
+                clearInterval(Timer);
                 timeScore = timeleft;
             }
             document.getElementById("time").innerText = timeleft;
             timeleft -= 1;
-            if (timeleft < 3) {
+            /* if time up hide game window and display timeup window with calculated score*/
+            if (timeleft < 0) {
+                timeUp = true;
                 gameWindow.style.display = "none";
                 timeUpwindow.style.display = "block";
-                userName2.innerText = input.value;
+                userName2.innerText = inputValue;
+                timeUpScore.innerText = calculateScore(matchFound, timeScore, click);
+                starScore = parseInt(timeUpScore.innerText);
+                /* If the score is above 100 and time up then give 1 star else no stars */
+                if (starScore > 100) {
+                    document.querySelector(".four").classList.add("checked");
+                }
                 return;
             }
         }, 1000);
 
-        /*-------------------------------------------------------------------------------------------------------------  */
+        /*-------------------------------------------------------------------------------------------------------------------------------------------  */
     }
 });
-
+/* ------------------------------------------------------Whne user click on card ONCLICK function will fire__________________________________________ */
 function ONCLICK(e) {
     if (
-        preventClick ||
+        dontClick ||
         e.target === clickedCard ||
         e.target.className.includes("done")
     ) {
@@ -112,35 +125,62 @@ function ONCLICK(e) {
             clickedCard.getAttribute("data-color") !==
             e.target.getAttribute("data-color")
         ) {
-            preventClick = true;
+            dontClick = true;
             setTimeout(() => {
                 clickedCard.classList.remove("done");
                 clickedCard.classList.add("color-hidden");
                 e.target.classList.remove("done");
                 e.target.classList.add("color-hidden");
                 clickedCard = null;
-                preventClick = false;
+                dontClick = false;
             }, 500);
         } else {
-            combosfound++;
-            score.innerText = combosfound;
+            matchFound++;
+            score.innerText = matchFound;
             clickedCard = null;
-            if (combosfound === 8) {
+            if (matchFound === 8 || timeUp) {
                 youWin = true;
                 setTimeout(() => {
                     gameWindow.style.display = "none";
                     winWindow.style.display = "block";
-                    winScore.innerText = calculateScore(combosfound, timeScore, click);
+                    winScore.innerText = calculateScore(matchFound, timeScore, click);
+                    starScore = parseInt(winScore.innerText);
+                    /* If the score is above 600 then give 3 stars else two (this is only when user win) */
+                    if (starScore > 600) {
+                        document.querySelector(".one").classList.add("checked");
+                        document.querySelector(".two").classList.add("checked");
+                        document.querySelector(".three").classList.add("checked");
+                    } else {
+                        document.querySelector(".one").classList.add("checked");
+                        document.querySelector(".two").classList.add("checked");
+                    }
                 }, 1500);
             }
         }
     }
 }
-
+/* this function fire when user click on replay button */
 function fun() {
     location.reload();
 }
-
+/* ------------------------------------------------------- */
+/* This function is for calculating the score */
 function calculateScore(m, t, c) {
-    return m * 50 + t * 5 + (c - m) * 10;
+    //m= Pair of matched card
+    // t= Timeleft befor user win (extra time)
+    // c= no of clicks, (c-m)= no of clicks when card doesnt match
+    return m * 50 + t * 5 - (c / 2 - m) * 5;
+}
+/*-------------------------------------- Function that Sanitize the input--------------------------- */
+function sanitize(string) {
+    const map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#x27;",
+        "/": "&#x2F;",
+    };
+    const reg = /[&<>"'/]/gi;
+    return string.replace(reg, (match) => map[match]);
 }

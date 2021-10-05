@@ -2,11 +2,27 @@
 <html lang="en">
 
 <head>
-    <title></title>
+    <title>Memory Game</title>
     <meta charset="UTF-8" />
+    <meta name=" theme-color" content="#eee" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        .attribution {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1%;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        .attribution a {
+            color: hsl(228, 45%, 44%);
+        }
+    </style>
 </head>
 
 <body>
@@ -28,9 +44,9 @@
             <h1><span id="userName"></span></h1>
             <span class="win-score">888</span>
             <div class="icons">
-                <span class="fa fa-star checked" style="font-size: 40px"></span>
-                <span class="fa fa-star checked" style="font-size: 40px"></span>
-                <span class="fa fa-star" style="font-size: 40px"></span>
+                <span class="fa fa-star one" style="font-size: 40px"></span>
+                <span class="fa fa-star two" style="font-size: 40px"></span>
+                <span class="fa fa-star three" style="font-size: 40px"></span>
             </div>
             <li class="fa fa-repeat btn" style="font-size: 36px" onclick="fun()"></li>
         </div>
@@ -39,14 +55,17 @@
         <div class="win-window">
             <h1>Time Up !</h1>
             <h1><span id="userName2"></span></h1>
-            <span class="win-score">000</span>
+            <span class="timeUp-score">000</span>
             <div class="icons">
-                <span class="fa fa-star checked" style="font-size: 40px"></span>
-                <span class="fa fa-star checked" style="font-size: 40px"></span>
-                <span class="fa fa-star" style="font-size: 40px"></span>
+                <span class="fa fa-star four" style="font-size: 40px"></span>
+                <span class="fa fa-star five" style="font-size: 40px"></span>
+                <span class="fa fa-star six" style="font-size: 40px"></span>
             </div>
             <li class="fa fa-repeat btn" style="font-size: 36px" onclick="fun()"></li>
         </div>
+    </div>
+    <div class="attribution">
+        Coded by <a href="https://github.com/10shubham01">Shubham</a>.
     </div>
     <script src="./script.js "></script>
 </body>
