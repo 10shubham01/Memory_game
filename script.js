@@ -55,7 +55,7 @@ function shuffle(array) {
 /* ----------------------------------------------------------------------------------------------------------------------- */
 
 start.addEventListener("mouseover", () => {
-  if (value.length <= 5) {
+  if (value.length <= 3) {
     if (start.className.includes("move-left")) {
       start.classList.add("move-right");
       start.classList.remove("move-left");
@@ -68,7 +68,7 @@ start.addEventListener("mouseover", () => {
 /* ------------------------------------------------------When a user enter his name and press enter------------------------------------------------------------------------- */
 function getUserName() {
   value = document.querySelector("input").value;
-  if (value.length <= 5 && value.length) {
+  if (value.length <= 3 && value.length) {
     document.querySelector("input").style.outlineColor = "red";
   } else {
     document.querySelector("input").style.outlineColor = "blue";
