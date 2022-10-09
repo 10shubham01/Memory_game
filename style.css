@@ -156,9 +156,6 @@ body {
     box-shadow: 0px 0px 5px rgb(126, 126, 126);
 }
 
-.Input:focus {
-    outline: none;
-}
 
 @media (max-width: 700px) {
     .container {
